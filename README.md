@@ -1,6 +1,6 @@
 # perf-challenge7 <br> <br> Tensor tanh()
 
-This challenge is to improve the performance of Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT) on CPU with the Shakespeare data set by speeding up a critical subroutine - hyperbolic tangent of tensors. 
+This challenge is to improve the performance of training Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT) on CPU with the Shakespeare data set by speeding up a critical subroutine - hyperbolic tangent of tensors. 
 
 [Mathworld](https://mathworld.wolfram.com/HyperbolicTangent.html) describes tanh() in depth.
 
