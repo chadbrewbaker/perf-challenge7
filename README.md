@@ -1,7 +1,4 @@
-# perf-challenge7 <br> <br> Activation Functions
-
-
-Activation functions in machine learing 
+# perf-challenge7 <br> <br> Activation Functions for nanoGPT
 
 This challenge is to improve the performance of training Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT) on CPU with the Shakespeare data set by speeding up a critical subroutine - the activation function. 
 
