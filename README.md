@@ -19,7 +19,7 @@ def gelu(x):
     return 0.5 * x * (1 + np.tanh(np.sqrt(2 / np.pi) * (x + 0.044715 * x**3)))
 ```
 
-Here is a naive implementation in C.
+Here is a naive implementation in C:
 
 ```c
 #include <unistd.h>
@@ -40,14 +40,14 @@ There are four challenges:
 * fast_gelu_(float32_t* in, float32_t* out,  uint64_t length)
 * fast_gelu_(bfloat16* in, bfloat16* out,  uint64_t length) 
 * fast_gelu_(float16* in, float16* out,  uint64_t length)
-* fn wasm_gelu_(a: [wasm32::v128](https://doc.rust-lang.org/beta/core/arch/wasm32/struct.v128.html), b: wasm32::v128) -> wasm32::v128 //Assume float32 types
+* fn wasm_gelu(a: [wasm32::v128](https://doc.rust-lang.org/beta/core/arch/wasm32/struct.v128.html), b: wasm32::v128) -> wasm32::v128 //Assume float32 types
 
 Rules:
 
 * Please target [Denis' bare metal](https://easyperf.net/blog/2022/05/28/Performance-analysis-and-tuning-contest-6#target-configuration) or a hosted [GitHub worker](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources).
 * As the contest progresses we will clarify acceptable GELU() error allowed.
 * The range of float values will be sampled from [Karpathy's nanoGPT](https://github.com/karpathy/nanoGPT) on the Shakespeare data set.
-* For webassembly we will use the [Chromium runntime](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md). Here are the [wasm intinsics](https://doc.rust-lang.org/beta/core/arch/wasm32/index.html).
+* For webassembly we will use the [Chromium runtime](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md). Here are the [wasm intinsics](https://doc.rust-lang.org/beta/core/arch/wasm32/index.html).
  
 
 ## References
