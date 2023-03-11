@@ -1,6 +1,0 @@
-torch
-numpy
-datasets
-tiktoken
-wandb
-tqdm
