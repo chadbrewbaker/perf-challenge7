@@ -1,17 +1,17 @@
-# perf-challenge7 <br> <br> Activation Functions for nanoGPT
+# perf-challenge7 <br> <br> Gaussian Linear Error Units
 
-This challenge is to improve the performance of training Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT) on CPU with the Shakespeare data set by speeding up a critical subroutine - the activation function. 
+This challenge is to improve the performance of [Gaussian Linear Error Units](https://arxiv.org/abs/1606.08415) (GELU)
+which is a subroutine used by machine learning models as a neuron activation function. 
 
-Here are a few articles on activation functions:
 
 [Activation Funcations of Nerual Networks Explained](https://towardsdatascience.com/activation-functions-neural-networks-1cbd9f8d91d6) 
 
-[How to Choose the Right Activation Function for Neural Networks](https://towardsdatascience.com/how-to-choose-the-right-activation-function-for-neural-networks-3941ff0e6f9c)
 
 The Huggingface Transformers repository Python implementations: [tensorflow](https://github.com/huggingface/transformers/blob/main/src/transformers/activations_tf.py) - [pytorch](https://github.com/huggingface/transformers/blob/main/src/transformers/activations.py)
 
 
-One of the most popular is [Gaussian Linear Error Units](https://arxiv.org/abs/1606.08415) (GELU)
+Here is a Python implementation of GELU:
+
 ```python
 import numpy as np
 
@@ -19,7 +19,7 @@ def gelu(x):
     return 0.5 * x * (1 + np.tanh(np.sqrt(2 / np.pi) * (x + 0.044715 * x**3)))
 ```
 
- We will simplify tensor types to an array of floats.
+Here is a naive implementation in C.
 
 ```c
 #include <unistd.h>
@@ -36,29 +36,19 @@ void slow_gelu_(float* in, float* out,  uint64_t length){
 }
 
 ```
-There are three challenges:
+There are four challenges:
 * fast_gelu_(float32_t* in, float32_t* out,  uint64_t length)
 * fast_gelu_(bfloat16* in, bfloat16* out,  uint64_t length) 
 * fast_gelu_(float16* in, float16* out,  uint64_t length)
-
-The benchmark will give you an error score from the reference. During the challenge we will come up with what error is acceptable. You can assume the same range of inputs as running nanoGPT on the Shakespeare data set.
-
-Bonus challenge: 
-
-* Design your own activation function for training nanoGPT on the Shakespeare data set. Replace [this function](https://github.com/karpathy/nanoGPT/blob/ae3a8d5fdd3ddb8b13fab182723476523961e3ab/model.py#L19) with your custom activation function, describe how it effects the number of iterations required to train the model, and independently benchmark an optimized version as above - the floating point precision is your choice.
+* fn wasm_gelu_(a: [wasm32::v128](https://doc.rust-lang.org/beta/core/arch/wasm32/struct.v128.html), b: wasm32::v128) -> wasm32::v128 //Assume float32 types
 
 Rules:
 
 * Please target [Denis' bare metal](https://easyperf.net/blog/2022/05/28/Performance-analysis-and-tuning-contest-6#target-configuration) or a hosted [GitHub worker](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources).
+* As the contest progresses we will clarify acceptable GELU() error allowed.
+* The range of float values will be sampled from [Karpathy's nanoGPT](https://github.com/karpathy/nanoGPT) on the Shakespeare data set.
+* For webassembly we will use the [Chromium runntime](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md). Here are the [wasm intinsics](https://doc.rust-lang.org/beta/core/arch/wasm32/index.html).
  
-
-```bash
-
-# Have python3 and git in your PATH
-bash setup.sh
-# Requires hyperfine installed
-bash bench_inference.sh
-```
 
 ## References
 
